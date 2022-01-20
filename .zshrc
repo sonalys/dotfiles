@@ -2,14 +2,12 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/alysson/.oh-my-zsh"
-export CHROME_EXECUTABLE=$(which google-chrome-stable)
-export PATH="$PATH:/home/alysson/flutter/bin"
+export ZSH="/home/raicon/.oh-my-zsh"
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="agnoster"
+ZSH_THEME="af-magic"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -24,14 +22,13 @@ ZSH_THEME="agnoster"
 # Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
+# Uncomment one of the following lines to change the auto-update behavior
+# zstyle ':omz:update' mode disabled  # disable automatic updates
+# zstyle ':omz:update' mode auto      # update automatically without asking
+# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
 # Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+# zstyle ':omz:update' frequency 13
 
 # Uncomment the following line if pasting URLs and other text is messed up.
 # DISABLE_MAGIC_FUNCTIONS="true"
@@ -46,12 +43,15 @@ ZSH_THEME="agnoster"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
+# You can also set it to another string to have that shown instead of the default red dots.
+# e.g. COMPLETION_WAITING_DOTS="%F{yellow}waiting...%f"
+# Caution: this setting can cause issues with multiline prompts in zsh < 5.7.1 (see #5765)
 # COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
 # much, much faster.
-DISABLE_UNTRACKED_FILES_DIRTY="true"
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
@@ -69,30 +69,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-
-export GO111MODULE=on
-export RS_DB_MONGO_CONN="{\"addresses\":[\"localhost:27017\"]}"
-
-alias mockall="mockery --dir ./dependency/ --all --case underscore --disable-version-string"
-
-export SCRIPT_DIR=/home/alysson/i3blocks
-
-# SOAJS envs
-export SOAJS_ENV=DEV
-export SOAJS_REGISTRY_API=127.0.0.1:11000
-export SOAJS_DEPLOY_MANUAL=1
-export DEV_ENV_PASSPHRASE="okkUhwHADiGnw6Vud-pZ"  
-
-# ALIAS
-alias ggall="GOPROXY=direct GOSUMDB=off go get ./..."
-alias gget="GOPROXY=direct GOSUMDB=off go get "
-alias gp="git push"
-alias gf="git fetch -p"
-alias nx="/usr/NX/bin/nxplayer 2>&1 &"
-
-export PATH=$PATH:/home/alysson/bin
-
-plugins=(git zsh-syntax-highlighting zsh-autosuggestions fzf)
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions fzf golang kubectl docker)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -121,6 +98,17 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias ssh="TERM=xterm-256color ssh"
+alias pi="ssh pi@10.0.0.100"
 
-export PATH=$PATH:/home/alysson/bin
+alias update-token="export ACCESS_TOKEN=\$(curl --location --request POST 'https://stg-api.rockspoon.io/authentication/v1/user/login' \
+	--header 'key: ${RS_KEY}' \
+	--header 'Content-Type: application/json' \
+	--data-raw '{
+	  \"username\": \"${RS_EMAIL}\",
+	    \"password\": \"${RS_PASSWORD}\"
+    }' | jq -r .accessToken)"
 
+alias change-context="export ACCESS_TOKEN=\$(curl -d '' --location --request POST 'https://stg-api.rockspoon.io/authentication/v1/context-switch/5cc2fbeb91765200a1559a94' \
+	--header \"access_token: $ACCESS_TOKEN\" \
+	--header 'Content-Type: application/json')"
