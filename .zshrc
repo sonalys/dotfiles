@@ -1,13 +1,21 @@
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-
+source ~/.profile
 # Path to your oh-my-zsh installation.
 export ZSH="/home/raicon/.oh-my-zsh"
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="af-magic"
+ZSH_THEME="ar"
+
+zstyle ':completion:*:cd:*' file-sort modification
+# set descriptions format to enable group support
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# preview directory's content with exa when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -69,7 +77,17 @@ ZSH_THEME="af-magic"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-syntax-highlighting zsh-autosuggestions fzf golang kubectl docker)
+plugins=(
+	git
+       	zsh-syntax-highlighting
+	zsh-autosuggestions
+	fzf
+	golang
+	kubectl
+	docker
+	rust
+	fzf-tab
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -99,16 +117,12 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias ssh="TERM=xterm-256color ssh"
-alias pi="ssh pi@10.0.0.100"
+alias pi_br="ssh -p 5000 pi@lieblings.duckdns.org"
+alias pi_de="ssh raspri@192.168.1.223"
 
-alias update-token="export ACCESS_TOKEN=\$(curl --location --request POST 'https://stg-api.rockspoon.io/authentication/v1/user/login' \
-	--header 'key: ${RS_KEY}' \
-	--header 'Content-Type: application/json' \
-	--data-raw '{
-	  \"username\": \"${RS_EMAIL}\",
-	    \"password\": \"${RS_PASSWORD}\"
-    }' | jq -r .accessToken)"
-
-alias change-context="export ACCESS_TOKEN=\$(curl -d '' --location --request POST 'https://stg-api.rockspoon.io/authentication/v1/context-switch/5cc2fbeb91765200a1559a94' \
-	--header \"access_token: $ACCESS_TOKEN\" \
-	--header 'Content-Type: application/json')"
+alias gcrb="git remote prune origin && git branch -vv | grep ': gone]' | awk '{ print \$1 }' | xargs -r git branch -D"
+alias gmd="go mod download"
+alias pr-open="gh pr create --base develop --assignee sonalys --reviewer fedo3nik,HarlamovBuldog,eugene-rockspoon,JaneKetko,Martin-jas,MonkeyBuisness,tinenbruno,nizarmasri-rockspoon"
+alias djwt="jq -R 'split(\".\") | .[1] | @base64d | fromjson' <<<"
+# Load Angular CLI autocompletion.
+source <(ng completion script)
