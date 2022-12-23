@@ -1,8 +1,10 @@
+# Get mouse name from command `xinput list`
+MOUSE_NAME="pointer"
 set_mouse() {
- ids=$(xinput | grep 'Razer Razer Naga Left Handed Edition' | cut -d "=" -f 2 | cut -f 1)
- for id in $ids
+ IDS=$(xinput | grep $MOUSE_NAME | cut -d "=" -f 2 | cut -f 1)
+ for ID in $IDS
  do
-  xinput --set-prop $id "Device Enabled" "$1"
+  xinput --set-prop $ID "Device Enabled" $1
  done
 }
 
