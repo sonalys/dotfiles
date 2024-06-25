@@ -117,12 +117,9 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias ssh="TERM=xterm-256color ssh"
-alias pi_br="ssh -p 5000 pi@lieblings.duckdns.org"
-alias pi_de="ssh raspri@192.168.1.223"
 
 alias gcrb="git remote prune origin && git branch -vv | grep ': gone]' | awk '{ print \$1 }' | xargs -r git branch -D"
 alias gmd="go mod download"
-alias pr-open="gh pr create --base develop --assignee sonalys --reviewer fedo3nik,HarlamovBuldog,eugene-rockspoon,JaneKetko,Martin-jas,MonkeyBuisness,tinenbruno,nizarmasri-rockspoon"
 alias djwt="jq -R 'split(\".\") | .[1] | @base64d | fromjson' <<<"
 # Load Angular CLI autocompletion.
 source <(ng completion script)
